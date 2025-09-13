@@ -230,6 +230,17 @@ For containerized deployment, use the provided Dockerfile:
    docker-compose up -d
    ```
 
+### Dokploy Deployment
+
+For Dokploy deployments, ensure the following environment variables are set:
+
+- `HOST=0.0.0.0` (crucial for container networking)
+- `PORT=3333` (or your preferred port)
+- `NODE_ENV=production`
+- `APP_KEY=your-32-character-secret-key`
+
+**Important**: The default `.env` file sets `HOST=localhost` which works for local development but causes `EADDRNOTAVAIL` errors in containerized environments. The Dockerfile automatically overrides this to `HOST=0.0.0.0`.
+
 ## 🤝 Contributing
 
 1. Fork the repository

@@ -29,6 +29,11 @@ RUN addgroup -g 1001 -S nodejs && \
 # Change ownership of the app directory
 RUN chown -R nodejs:nodejs /app
 
+# Set environment variables for container
+ENV HOST=0.0.0.0
+ENV PORT=3333
+ENV NODE_ENV=production
+
 # Switch to non-root user
 USER nodejs
 
