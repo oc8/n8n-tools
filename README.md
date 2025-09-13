@@ -169,17 +169,65 @@ No rate limiting is currently implemented. Consider adding rate limiting for pro
    npm run build
    ```
 
-2. **Start the production server**
+2. **Navigate to build directory and install production dependencies**
    ```bash
-   npm start
+   cd build
+   npm ci --omit="dev"
    ```
 
-3. **Environment Variables**
-   Create a `.env` file with your production settings:
+3. **Start the production server**
+   ```bash
+   node bin/server.js
+   ```
+
+4. **Environment Variables**
+   Create a `.env` file in the build directory with your production settings:
    ```env
    NODE_ENV=production
    PORT=3333
    HOST=0.0.0.0
+   ```
+
+**Note**: The build process compiles TypeScript to JavaScript and creates a production-ready bundle in the `build` directory.
+
+### Docker Deployment
+
+For containerized deployment, use the provided Dockerfile:
+
+1. **Build the Docker image**
+   ```bash
+   docker build -t n8n-tools .
+   ```
+
+2. **Run the container**
+   ```bash
+   docker run -p 3333:3333 n8n-tools
+   ```
+
+3. **With environment variables**
+   ```bash
+   docker run -p 3333:3333 -e NODE_ENV=production -e PORT=3333 n8n-tools
+   ```
+
+4. **Using Docker Compose (optional)**
+   Create a `docker-compose.yml`:
+   ```yaml
+   version: '3.8'
+   services:
+     n8n-tools:
+       build: .
+       ports:
+         - "3333:3333"
+       environment:
+         - NODE_ENV=production
+         - PORT=3333
+         - HOST=0.0.0.0
+       restart: unless-stopped
+   ```
+
+   Then run:
+   ```bash
+   docker-compose up -d
    ```
 
 ## 🤝 Contributing
