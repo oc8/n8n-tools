@@ -1,5 +1,5 @@
 # Use Node.js 18 Alpine as base image
-FROM node:18-alpine
+FROM node:22-alpine
 
 # Set working directory
 WORKDIR /app
@@ -24,7 +24,7 @@ RUN npm ci --omit=dev
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
+  adduser -S nodejs -u 1001
 
 # Change ownership of the app directory
 RUN chown -R nodejs:nodejs /app
@@ -37,7 +37,7 @@ EXPOSE 3333
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:3333/ || exit 1
+  CMD wget --no-verbose --tries=1 --spider http://localhost:3333/ || exit 1
 
 # Start the application
 CMD ["node", "bin/server.js"]
